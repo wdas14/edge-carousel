@@ -1,0 +1,15 @@
+.brandedJobDotContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.brandedJobDotHolder {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #4A4A4A;
+    margin-right: 5px;
+    display: inline-block;
+    cursor: pointer;
+}

@@ -1,0 +1,112 @@
+.brandedJobCarouselContainer {
+    max-width: 960px;
+    width: 100%;
+    margin: 50px 0 40px 0;
+    display: inline-block;
+}
+
+.brandedJobCarouselContent {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.brandedJobSlideLeft {
+    width: 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0)
+    );
+    z-index: 10;
+}
+
+.brandedJobLeftGlyph {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translate(0, -50%);
+    color: lightgrey;
+    z-index: 20;
+}
+
+.brandedJobSlideLeftBtn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100%;
+    z-index: 30
+}
+
+.brandedJobSlideRight {
+    width: 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0)
+    );
+    z-index: 10;
+}
+
+.brandedJobRightGlyph {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translate(0, -50%);
+    color: lightgrey;
+    z-index: 20;
+}
+
+.brandedJobSlideRightBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    z-index: 30
+}
+
+.brandedJobMainSlideStyle {
+    position: absolute;
+    width: 1000%;
+    top: 0;
+    transition: transform ease-out .45s;
+}
+
+.brandedJobSecondarySlideStyle {
+    width: 1000%;
+}
+
+@media (max-width: 425px) {
+    .brandedJobCarouselContainer {
+        margin: 10px 0 0 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .brandedJobCarouselContent {
+        height: 150px;
+    }
+
+    .brandedJobLeftGlyph {
+        left: 5px;
+    }
+
+    .brandedJobRightGlyph {
+        right: 5px;
+    }
+
+    .brandedJobSlideLeft, .brandedJobSlideRight {
+        width: 30px;
+    }
+}
