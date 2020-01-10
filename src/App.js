@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Carousel from './components/Carousel';
 import './App.css';
 
-import media1 from './assets/wombat1.jpg';
-// import media2 from './assets/wombat2.jpg';
+import media1 from './assets/wombat2.jpg';
+// import media2 from './assets/wombat1.jpg';
 import media3 from './assets/wombat3.jpg';
 import media4 from './assets/wombat4.jpg';
 
@@ -42,7 +42,7 @@ class App extends Component {
 
 	componentDidMount = () => {
 		const {media} = this.state;
-		this.cleanMedia(media.length > 0 ? media : null)
+		media.length > 0 && this.cleanMedia(media)
 		.then(cleanMedia => {
 			this.setState({media: cleanMedia})
 		})
@@ -58,39 +58,43 @@ class App extends Component {
 			return media
 		})
 
-		const videoMediaUpdate = await videoMedia.map(item => {
-			const newMediaObj = {
-				image: item.image,
-				mediaType: item.mediaType,
-				displayOrder: item.displayOrder,
-			}
-			const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-			const id = item.image.match(regExp);
-
-			newMediaObj.image = `http://img.youtube.com/vi/${id[7]}/${0}.jpg`;
-			newMediaObj.embedUrl = `https://www.youtube.com/embed/${id[7]}`;
-			return newMediaObj;
-		})
-		
-		const cleanMedia = await media.map(item => {
-			const newMediaObj = {
-				image: item.image,
-				mediaType: item.mediaType,
-				displayOrder: item.displayOrder,
-			}
-
-			videoMediaUpdate.map(videoItem => {
-				if(item.displayOrder === videoItem.displayOrder) {
-					newMediaObj.image = videoItem.image
-					newMediaObj.embedUrl = videoItem.embedUrl;
+		if(videoMedia !== null) {
+			const videoMediaUpdate = await videoMedia.map(item => {
+				const newMediaObj = {
+					image: item.image,
+					mediaType: item.mediaType,
+					displayOrder: item.displayOrder,
 				}
-				return null;
+				const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+				const id = item.image.match(regExp);
+	
+				newMediaObj.image = `http://img.youtube.com/vi/${id[7]}/${0}.jpg`;
+				newMediaObj.embedUrl = `https://www.youtube.com/embed/${id[7]}`;
+				return newMediaObj;
 			})
+			
+			const cleanMedia = await media.map(item => {
+				const newMediaObj = {
+					image: item.image,
+					mediaType: item.mediaType,
+					displayOrder: item.displayOrder,
+				}
+	
+				videoMediaUpdate.map(videoItem => {
+					if(item.displayOrder === videoItem.displayOrder) {
+						newMediaObj.image = videoItem.image
+						newMediaObj.embedUrl = videoItem.embedUrl;
+					}
+					return null;
+				})
+	
+				return newMediaObj
+			})
+	
+			return cleanMedia;
+		}
 
-			return newMediaObj
-		})
-
-		return cleanMedia;
+		return this.state.media
 	}
 
 	render() {

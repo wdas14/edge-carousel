@@ -9,12 +9,10 @@ const Slide = (props) => {
 		marginRight: '20px',
 		position: 'relative'
 	}
-	// modal method
 	let triggerLightbox = null;
 	let playIcon = null;
 	let cursor = null;
 	if(props.mediaType === 'Video') {
-		// modal method
 		triggerLightbox = props.triggerLightbox;
 		playIcon = <img src={playButton} className="brandedJobPlayButton" alt="play icon" />
 		cursor = 'pointer';
