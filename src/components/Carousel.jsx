@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Slide from './Slide';
 import Indicators from './Indicators';
+import Modal from './Modal';
 import './Carousel.css';
 import leftChevron from '../assets/leftChevron.svg';
 import rightChevron from '../assets/rightChevron.svg';
@@ -12,7 +13,8 @@ export default class Carousel extends Component {
             translateValue: 0,
             showHidePrevSlide: {display: 'none'},
             showHideNextSlide: {display: 'block'},
-            goToSlide: false
+            goToSlide: false,
+            videoOpen: false
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         
@@ -205,13 +207,6 @@ export default class Carousel extends Component {
         return this.slideRef.current.clientWidth;
     }
 
-    // once called fire off the knockout function ShowLightbox
-    fireKnockoutShowLightboxFunc() {
-        return (e) => {
-            window.reed.controllers.jobs.view.getModel().showLightbox(null, e);
-        }
-    }
-
     // renders the dots on load
     renderIndicators() {
         const media = this.props.media;
@@ -228,6 +223,14 @@ export default class Carousel extends Component {
         return indicators;
     }
 
+    triggerLightbox(videoItem) {
+        return (e) => {
+            e.preventDefault();
+            const embedUrl = videoItem.embedUrl;
+            this.setState({videoOpen: !this.state.videoOpen, embedUrl})
+        }
+    }
+
     render() {
         const media = this.props.media;
         const mediaLength = media.length;
@@ -240,6 +243,7 @@ export default class Carousel extends Component {
             slideContainerStyle = slideStyle
         }
         return (
+            <>
             <div ref={this.carouselContainerRef} className="brandedJobCarouselContainer" data-qe="ctn-carousel-content">
                 <div className="brandedJobCarouselContent">
                     <div className="brandedJobSlideLeft" style={this.state.showHidePrevSlide}>
@@ -251,7 +255,7 @@ export default class Carousel extends Component {
                     <div className={slideContainerStyle} style={dynamicStyle} data-qe="ctn-slide-container">
                         {
                             media.map((item, i) => (
-                                <Slide key={i} image={item.image} mediaType={item.mediaType} showLightbox={this.fireKnockoutShowLightboxFunc()} index={item.displayOrder} slideRef={this.slideRef} />
+                                <Slide key={i} image={item.image} mediaType={item.mediaType} triggerLightbox={this.triggerLightbox(item)} index={item.displayOrder} slideRef={this.slideRef} />
                             ))   
                         }
                     </div>
@@ -264,6 +268,8 @@ export default class Carousel extends Component {
                 </div>
                 {this.renderIndicators()}
             </div>
+            {this.state.videoOpen && <Modal isOpen={() => {this.setState({videoOpen: !this.state.videoOpen})}} embedUrl={this.state.embedUrl} />}
+            </>
         );
     }
     

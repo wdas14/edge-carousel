@@ -1,23 +1,27 @@
 import React from 'react';
 import './Slide.css';
 
+import playButton from '../assets/playButton.svg';
+
 const Slide = (props) => {
 	const styles = {
 		float: 'left',
 		marginRight: '20px',
 		position: 'relative'
 	}
-	let showLightbox = null;
+	// modal method
+	let triggerLightbox = null;
 	let playIcon = null;
 	let cursor = null;
 	if(props.mediaType === 'Video') {
-		showLightbox = props.showLightbox;
-		playIcon = <img src="/resources/images/controllers/jobs/playButton.svg" className="brandedJobPlayButton" alt="" />
+		// modal method
+		triggerLightbox = props.triggerLightbox;
+		playIcon = <img src={playButton} className="brandedJobPlayButton" alt="play icon" />
 		cursor = 'pointer';
 	}
 	return (
-		<div onClick={showLightbox} ref={props.slideRef} className="slide" style={styles} data-displayorder={props.index}>
-			<img src={props.image} className="brandedJobSlideImg" style={{cursor: cursor}} />
+		<div onClick={triggerLightbox} ref={props.slideRef} className="slide" style={styles} data-displayorder={props.index}>
+			<img src={props.image} className="brandedJobSlideImg" style={{cursor: cursor}}  alt="media" />
 			{playIcon}
 		</div>
 	)
